@@ -3,7 +3,7 @@ name: Create Codespace on 42 branch creation
 on:
   create:
     branches:
-      - '42'
+      - 42
 
 jobs:
   create-codespace:
