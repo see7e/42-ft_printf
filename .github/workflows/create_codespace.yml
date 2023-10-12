@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Codespace
-        uses: microsoft/create-codespace-action@v1
+        uses: see7e/create_codespace@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .devcontainer.json
