@@ -11,8 +11,9 @@
         "ms-python.python",
         "vscoss.vscode-ansible",
         "editorconfig.editorconfig",
-        "ms-vscode-remote.remote-containers"
-        // Add more extensions as needed
+        "ms-vscode-remote.remote-containers",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
     ],
     // Installing the norminette and francinette
     "postCreateCommand": "curl -L https://github.com/42School/norminette/archive/master.tar.gz | tar xz -C /usr/local --strip-components=1 && curl -L https://github.com/xicodomingues/francinette/archive/master.tar.gz | tar xz -C /usr/local --strip-components=1",
@@ -24,7 +25,5 @@
     "settings": {
         "python.pythonPath": "/usr/bin/python3",
         "ansible.pythonPath": "/usr/bin/python3",
-        // Add more settings as needed
     },
-  }
-  
+}
