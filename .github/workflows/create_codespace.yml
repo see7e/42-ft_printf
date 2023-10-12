@@ -9,12 +9,12 @@ jobs:
   create-codespace:
     runs-on: ubuntu-latest
     steps:
-      # Create Codespace
       - name: Create Codespace
-        uses: actions/codespaces/create@v1
+        uses: github/codespaces-create@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          branch: ${{ github.ref }}
           config: .devcontainer.json
-      # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
