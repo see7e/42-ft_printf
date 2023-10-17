@@ -1,28 +1,61 @@
 NAME    = libftprintf.a
 CFLAGS  = -Wall -Werror -Wextra -I. -c
 
+# Libft folder
+LIBFT_DIR   = libft
+
+# Mandatory part
 PART    = ft_printf.c
 OBJ     = $(PART:.c=.o)
 
+# Bonus part
 BONUS   = ft_printf_bonus.c
 OBJ_BONUS = $(BONUS:.c=.o)
 
-FILES   = $(PART) $(BONUS)
-OBJ     = $(OBJ)$(OBJ_BONUS)
-
+# Rules
 all: $(NAME)
 
 $(NAME): $(OBJ)
+    @echo "------------------------------------"
+    @echo "Compiling libft"
+    @echo "------------------------------------"
+    # Make the libft library
+	make -C $(LIBFT_DIR)
+    # Copy the libft.a file to the root of the project
+	cp libft/libft.a .
+    # Rename the libft.a file to $(NAME)
+	mv libft.a $(NAME)
+	@echo "------------------------------------"
+	@echo "Compiling ft_printf Mandatory Part"
+	@echo "------------------------------------"
     ar rcs $(NAME) $(OBJ)
 
-# A generic rule to build object files (%.o: %.c) with automatic dependency generation
-%.o: %.c
-    gcc $(CFLAGS) $< -o $@
+bonus: $(OBJ_BONUS)
+    @echo "------------------------------------"
+    @echo "Compiling ft_printf Bonus Part"
+    @echo "------------------------------------"
+    ar rcs $(NAME) $(OBJ) $(OBJ_BONUS)
 
-clean:
+# Add a target to run tests using the test.sh script
+#test: all
+#    sh ./tests/test.sh
+
+libft_clean:
+    @echo "------------------------------------"
+    @echo "Cleaning the libft object files"
+    @echo "------------------------------------"
+    make clean -C $(LIBFT_DIR)
+    
+clean: libft_clean
+	@echo "------------------------------------"
+	@echo "Cleaning the object files"
+	@echo "------------------------------------"
     rm -f $(OBJ)
 
 fclean: clean
+	@echo "------------------------------------"
+	@echo "Cleaning the object files and the libraries"
+	@echo "------------------------------------"
     rm -f $(NAME)
 
 re: fclean all
@@ -30,6 +63,3 @@ re: fclean all
 # .PHONY targets for clean, fclean, all, and re for better Makefile behavior
 .PHONY: clean fclean all re
 
-# Add a target to run tests using the test.sh script
-test: all
-    sh ./tests/test.sh
