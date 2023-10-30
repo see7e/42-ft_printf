@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "libft.h": "c",
+        "get_next_line.h": "c",
+        "get_next_line_bonus.h": "c",
+        "ft_printf_bonus.h": "c",
+        "ft_printf.h": "c"
+    },
+    // Editor
+    "editor.rulers": [80],
+    "editor.tabSize": 4,
+    "editor.renderWhitespace": "all",
+    // 42 header extension
+    "42header.username": "gabrodri",
+    "42header.email": "gabrodri@student.42.fr"
+}

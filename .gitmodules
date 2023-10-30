@@ -1,0 +1,4 @@
+[submodule "Libft"]
+	path = libft
+	url = https://github.com/the-8-bits/42-libft.git
+	branch = lib-only
