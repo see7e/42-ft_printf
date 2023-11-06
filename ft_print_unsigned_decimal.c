@@ -6,22 +6,56 @@
 /*   By: gabrodri <gabrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:43:39 by gabrodri          #+#    #+#             */
-/*   Updated: 2023/10/30 13:20:23 by gabrodri         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:19:46 by gabrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_unsigned_decimal(va_list args, int count)
+static int	unsigned_num_len(unsigned int n)
 {
-	unsigned int	num;
+	int	i;
 
-	num = va_arg(args, unsigned int);
-	if (num == 0)
+	i = 0;
+	if (n == 0)
+		return (1);
+	while (n != 0)
 	{
-		write(1, "0", 1);
-		return (count++);
+		n /= 10;
+		i++;
 	}
-	else
-		return (count += ft_print_digits(num, NULL));
+	return (i);
+}
+
+static char	*unsigned_itoa(unsigned int n)
+{
+	char	*nbr;
+	int		length;
+
+	length = unsigned_num_len(n);
+	nbr = (char *)malloc(sizeof(char) * (length + 1));
+	if (!nbr)
+		return (0);
+	nbr[length] = '\0';
+	if (n == 0)
+		nbr[0] = '0';
+	while (n != 0)
+	{
+		nbr[length - 1] = n % 10 + '0';
+		n /= 10;
+		length--;
+	}
+	return (nbr);
+}
+
+int	ft_print_unsigned_decimal(unsigned int n)
+{
+	int		count;
+	char	*number;
+
+	count = unsigned_num_len(n);
+	number = unsigned_itoa(n);
+	ft_print_string(number);
+	free(number);
+	return (count);
 }

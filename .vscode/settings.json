@@ -1,4 +1,18 @@
 {
+    // Language especific settings
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.rulers": [100]
+    },
+    "[c]": {
+        "editor.renderWhitespace": "all",
+        "editor.wordBasedSuggestions": false,
+        "editor.suggest.insertMode": "replace",
+        "editor.semanticHighlighting.enabled": true,
+        "editor.rulers": [80]
+    },
+
+    // General settings
     "files.associations": {
         "libft.h": "c",
         "get_next_line.h": "c",
@@ -6,11 +20,10 @@
         "ft_printf_bonus.h": "c",
         "ft_printf.h": "c"
     },
-    // Editor
-    "editor.rulers": [80],
     "editor.tabSize": 4,
-    "editor.renderWhitespace": "all",
-    // 42 header extension
+    "editor.renderWhitespace": "selection",
+    
+    // 42: Header extension
     "42header.username": "gabrodri",
     "42header.email": "gabrodri@student.42.fr"
 }

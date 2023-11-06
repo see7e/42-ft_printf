@@ -6,27 +6,28 @@
 /*   By: gabrodri <gabrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:43:10 by gabrodri          #+#    #+#             */
-/*   Updated: 2023/10/30 13:19:17 by gabrodri         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:24:39 by gabrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_hexadecimal(va_list args, const char *format, int count)
+static int	print_single_hex_char(int n, char type)
 {
-	unsigned int	num;
-	const char		*hex_digits;
+	if (type == 'x')
+		return (ft_print_char(HEX_DIGITS_LOWER[n]));
+	else
+		return (ft_print_char(HEX_DIGITS_UPPER[n]));
+}
 
-	if (*format == 'x')
-		hex_digits = HEX_DIGITS_LOWER;
-	else
-		HEX_DIGITS_UPPER;
-	num = va_arg(args, unsigned int);
-	if (num == 0)
-	{
-		write(1, "0", 1);
-		return (count++);
-	}
-	else
-		return (count += ft_print_digits(num, hex_digits));
+int	ft_print_hexadecimal(unsigned long long n, char type)
+{
+	int	count;
+
+	count = 0;
+	if (n < 16)
+		return (print_single_hex_char(n, type));
+	count += ft_print_hexadecimal(n / 16, type);
+	count += print_single_hex_char(n % 16, type);
+	return (count);
 }

@@ -5,73 +5,96 @@
                         ║            printf            ║
                         ╚══════════════════════════════╝
 ✔ Preparing framework
-✖ Executing: norminette
-ft_printf.c: OK!
-ft_printf.h: Error!
-Error: PREPROC_CONSTANT     (line:  21, col:  45):      Preprocessor statement must only contain constant defines
-Error: PREPROC_CONSTANT     (line:  22, col:  45):      Preprocessor statement must only contain constant defines
-ft_print_string.c: OK!
-ft_print_pointer.c: OK!
-ft_print_unsigned_decimal.c: OK!
-ft_print_percent.c: OK!
-ft_print_char.c: OK!
-ft_print_decimal.c: OK!
-ft_print_hexadecimal.c: Error!
-Error: IMPLICIT_VAR_TYPE    (line:  23, col:   1):      Missing type in variable declaration
-Error: WRONG_SCOPE_VAR      (line:  23, col:   1):      Variable declared in incorrect scope
-ft_print_digits.c: OK!
-libft/ft_strlen.c: OK!
-libft/ft_isascii.c: OK!
-libft/ft_strrchr.c: OK!
-libft/ft_lstmap.c: OK!
-libft/ft_putendl_fd.c: OK!
-libft/ft_lstdelone.c: OK!
-libft/ft_memmove.c: OK!
-libft/ft_bzero.c: OK!
-libft/ft_lstsize.c: OK!
-libft/ft_strnstr.c: OK!
-libft/ft_memcpy.c: OK!
-libft/ft_putchar_fd.c: OK!
-libft/ft_split.c: OK!
-libft/ft_memchr.c: OK!
-libft/ft_putnbr_fd.c: OK!
-libft/ft_substr.c: OK!
-libft/ft_tolower.c: OK!
-libft/ft_strlcat.c: OK!
-libft/ft_strchr.c: OK!
-libft/ft_lstnew.c: OK!
-libft/ft_lstlast.c: OK!
-libft/ft_isalnum.c: OK!
-libft/ft_toupper.c: OK!
-libft/ft_itoa.c: OK!
-libft/ft_memset.c: OK!
-libft/ft_putstr_fd.c: OK!
-libft/ft_strtrim.c: OK!
-libft/ft_memcmp.c: OK!
-libft/ft_isdigit.c: OK!
-libft/ft_strndup.c: OK!
-libft/ft_lstadd_front.c: OK!
-libft/ft_lstadd_back.c: OK!
-libft/ft_striteri.c: OK!
-libft/libft.h: OK!
-libft/ft_lstiter.c: OK!
-libft/ft_atoi.c: OK!
-libft/ft_isalpha.c: OK!
-libft/ft_strlcpy.c: OK!
-libft/ft_strjoin.c: OK!
-libft/ft_strncmp.c: OK!
-libft/ft_calloc.c: OK!
-libft/ft_strdup.c: OK!
-libft/ft_lstclear.c: OK!
-libft/ft_isprint.c: OK!
-libft/ft_strmapi.c: OK!
+✔ Executing: norminette
+✔ Executing: make fclean all (no bonus)
+ℹ Running tests: printfTester (https://github.com/Tripouille/printfTester)
+[Mandatory]
+category: c
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 
+category: s
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+category: p
+1.OK 2.OK 3.OK 4.OK 5.OK 6.TIMEOUT 7.OK 8.KO 9.OK 
+category: d
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 
+category: i
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 
+category: u
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 
+category: x
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 30.OK 31.OK 
+category: X
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 30.OK 31.OK 
+category: %
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 
+category: mix
+1.OK 
 
-✖ Executing: make fclean all (no bonus)
-In file included from ft_printf.c:13:
-ft_printf.h:42:13: error: ‘ft_handleFormatSpecifier’ declared ‘static’ but never defined [-Werror=unused-function]
-   42 | static int  ft_handleFormatSpecifier(const char *format, va_list args,
-      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-make: *** [<builtin>: ft_printf.o] Error 1
+Errors found:
+For /home/codespace/francinette/tests/printf/printfTester/tests/p_test.cpp:
+30:     TEST(6, print(" %p %p ", LONG_MIN, LONG_MAX));
+32:     TEST(8, print(" %p %p ", ULONG_MAX, -ULONG_MAX));
 
-Problem creating the library
+
+ℹ Running tests: fsoares (my own tests)
+Want some more thorough tests? run 'francinette --strict'.
+
+Summary: no bonus
+
+Failed tests: printfTester
+
+@see7e ➜ /workspaces/42-ft_printf (42) $ ~/francinette/tester.sh
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                Welcome to Francinette, a 42 tester framework!                ║
+╚═══════════════════════╦══════════════════════════════╦═══════════════════════╝
+                        ║            printf            ║
+                        ╚══════════════════════════════╝
+✔ Preparing framework
+✔ Executing: norminette
+✔ Executing: make fclean all (no bonus)
+ℹ Running tests: printfTester (https://github.com/Tripouille/printfTester)
+[Mandatory]
+category: c
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 
+category: s
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 
+category: p
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 
+category: d
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 
+category: i
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 
+category: u
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 
+category: x
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 30.OK 31.OK 
+category: X
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 8.OK 9.OK 10.OK 11.OK 12.OK 13.OK 14.OK 15.OK 16.OK 17.OK 18.OK 19.OK 20.OK 21.OK 22.OK 23.OK 24.OK 25.OK 26.OK 27.OK 28.OK 29.OK 30.OK 31.OK 
+category: %
+1.OK 2.OK 3.OK 4.OK 5.OK 6.OK 7.OK 
+category: mix
+1.OK 
+
+ℹ Running tests: fsoares (my own tests)
+Want some more thorough tests? run 'francinette --strict'.
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                 🎉🥳 All tests passed! Congratulations! 🥳🎉                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+@see7e ➜ /workspaces/42-ft_printf (42) $ ~/francinette/tester.sh --strict
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                Welcome to Francinette, a 42 tester framework!                ║
+╚═══════════════════════╦══════════════════════════════╦═══════════════════════╝
+                        ║            printf            ║
+                        ╚══════════════════════════════╝
+✔ Preparing framework
+✔ Executing: norminette
+✔ Executing: make fclean all (no bonus)
+ℹ Running tests: fsoares (my own tests)
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                 🎉🥳 All tests passed! Congratulations! 🥳🎉                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+

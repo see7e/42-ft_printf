@@ -6,19 +6,24 @@
 /*   By: gabrodri <gabrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:43:30 by gabrodri          #+#    #+#             */
-/*   Updated: 2023/10/30 13:18:37 by gabrodri         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:01:14 by gabrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_string(va_list args, int count)
+int	ft_print_string(const char *s)
 {
-	char			*str;
-	unsigned int	len;
+	int	count;
 
-	str = va_arg(args, char *);
-	len = ft_strlen(str);
-	write(1, str, len);
-	return (count += len);
+	count = 0;
+	if (s == NULL)
+		return (write(1, "(null)", 6));
+	while (*s)
+	{
+		ft_putchar_fd(*s, 1);
+		s++;
+		count++;
+	}
+	return (count);
 }

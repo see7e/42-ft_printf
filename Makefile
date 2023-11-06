@@ -6,19 +6,26 @@
 #    By: gabrodri <gabrodri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/30 12:43:46 by gabrodri          #+#    #+#              #
-#    Updated: 2023/10/30 12:47:29 by gabrodri         ###   ########.fr        #
+#    Updated: 2023/11/03 20:53:02 by gabrodri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = libftprintf.a
-CFLAGS  = -Wall -Werror -Wextra -I. -c
+NAME	= libftprintf.a
+CFLAGS	= -Wall -Werror -Wextra -I. -c
 
 # Libft folder
 #LIBFT_DIR   = libft
 
 # Mandatory part
-PART    = ft_printf.c
-OBJ     = $(PART:.c=.o)
+PART	= ft_printf.c \
+		ft_print_char.c \
+		ft_print_string.c \
+		ft_print_decimal.c \
+		ft_print_unsigned_decimal.c \
+		ft_print_hexadecimal.c \
+		ft_print_pointer.c \
+
+OBJ		= $(PART:.c=.o)
 
 # Bonus part
 BONUS   = ft_printf_bonus.c
@@ -50,8 +57,8 @@ $(NAME): $(OBJ)
 # 	ar rcs $(NAME) $(OBJ) $(OBJ_BONUS)
 
 # Add a target to run tests using the test.sh script
-#test: all
-#	sh ./tests/test.sh
+test: all
+	sh ./tests/test.sh
 
 libft_clean:
 	@echo "------------------------------------"

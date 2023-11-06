@@ -6,34 +6,54 @@
 /*   By: gabrodri <gabrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:42:42 by gabrodri          #+#    #+#             */
-/*   Updated: 2023/10/30 13:18:59 by gabrodri         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:14:39 by gabrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_decimal(va_list args, int count)
-{
-	int	num;
-	int	is_negative;
+#include "ft_printf.h"
 
-	num = va_arg(args, int);
-	is_negative = 0;
-	if (num < 0)
-	{
-		is_negative = 1;
-		num = -num;
-	}
-	if (is_negative)
+static int	ft_print_positive_decimal(int n)
+{
+	int		length;
+	char	digit;
+
+	length = 0;
+	if (n >= 10)
+		length += ft_print_positive_decimal(n / 10);
+	digit = '0' + (n % 10);
+	write(1, &digit, 1);
+	length++;
+	return (length);
+}
+
+static int	ft_print_negative_decimal(int n)
+{
+	int		length;
+	char	digit;
+
+	length = 0;
+	if (n <= -10)
+		length += ft_print_negative_decimal(n / 10);
+	digit = '0' - (n % 10);
+	write(1, &digit, 1);
+	length++;
+	return (length);
+}
+
+int	ft_print_decimal(int n)
+{
+	int	length;
+
+	length = 0;
+	if (n < 0)
 	{
 		write(1, "-", 1);
-		return (count++);
-	}
-	if (num == 0)
-	{
-		write(1, "0", 1);
-		return (count++);
+		length++;
+		length += ft_print_negative_decimal(n);
 	}
 	else
-		return (count += ft_print_digits(num, NULL));
+		length += ft_print_positive_decimal(n);
+	return (length);
 }

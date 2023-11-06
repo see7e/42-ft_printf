@@ -6,18 +6,25 @@
 /*   By: gabrodri <gabrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:43:25 by gabrodri          #+#    #+#             */
-/*   Updated: 2023/10/30 13:18:47 by gabrodri         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:32:25 by gabrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_pointer(va_list args, int count)
+int	ft_print_pointer(void *ptr)
 {
-	void	*ptr;
+	unsigned long long	n;
+	int					count;
 
-	ptr = va_arg(args, void *);
-	write(1, "0x", 2);
-	count += 2;
-	ft_print_digits((unsigned long long)ptr, HEX_DIGITS_LOWER);
+	count = 0;
+	if (!ptr)
+		return (write(1, "(nil)", 5));
+	n = (unsigned long long)ptr;
+	count += write(1, "0x", 2);
+	if (n == 0)
+		count += ft_print_char('0');
+	else
+		count += ft_print_hexadecimal(n, 'x');
+	return (count);
 }
