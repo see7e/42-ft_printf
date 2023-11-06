@@ -197,6 +197,78 @@ Your project structure should look like this:
 
 ---
 
+## `va_start()`, `va_arg()`, and `va_end()`
+
+Typically used when you want to create functions that can accept a variable number of arguments, like `printf` and `scanf` in C. These functions are part of the `<stdarg.h>` header.
+
+1. `va_start()`:
+   - is used to initialize a `va_list` object, which is a data structure that allows you to access the variable arguments passed to a function.
+   - It takes two arguments: the first argument is the `va_list` object you want to initialize, and the second argument is the last named parameter before the variable arguments. This helps `va_start()` determine where the variable arguments begin.
+
+   Example:
+   ```c
+   #include <stdarg.h>
+
+   void example_function(int fixed_arg, ...) {
+       va_list args;
+       va_start(args, fixed_arg);
+       // Now you can use va_arg() to access variable arguments.
+   }
+   ```
+
+2. `va_arg()`:
+   - is used to access the individual variable arguments within the function.
+   - It takes a `va_list` object and the type of the argument you want to access.
+   - You should use `va_arg()` in a loop or repeatedly to access all the variable arguments.
+
+   Example:
+   ```c
+   int sum_of_integers(int count, ...) {
+       va_list args;
+       va_start(args, count);
+       int sum = 0;
+       for (int i = 0; i < count; i++) {
+           int num = va_arg(args, int);
+           sum += num;
+       }
+       va_end(args);
+       return sum;
+   }
+   ```
+
+3. `va_end()`:
+   - `va_end()` is used to clean up and release the resources associated with the `va_list` object.
+   - It should be called at the end of the function that uses variable arguments to free up any resources and prevent memory leaks.
+
+   Example:
+   ```c
+   int sum_of_integers(int count, ...) {
+       va_list args;
+       va_start(args, count);
+       int sum = 0;
+       for (int i = 0; i < count; i++) {
+           int num = va_arg(args, int);
+           sum += num;
+       }
+       va_end(args); // Cleanup va_list
+       return sum;
+   }
+   ```
+
+---
+
+|Mandatory|#|Bonus|#|
+|-|-|-|-|
+|%c|✔️|’-0.’|❌|
+|%s|✔️|’#`space`+’|❌|
+|%p|✔️|
+|%d|✔️|
+|%i|✔️|
+|%u|✔️|
+|%x|✔️|
+|%X|✔️|
+|%%|✔️|
+
 ## Mandatory Part
 
 This function takes a format string and a variable number of arguments and prints formatted output to the standard output (`stdout`). It handles format specifiers such as characters, strings, signed integers and unsigned integers, hexadecimal integers, and printing a literal '%' character. The code uses `va_list` and `va_arg` to process the variable arguments.
@@ -205,200 +277,44 @@ This function takes a format string and a variable number of arguments and print
 // ft_printf.c
 #include "ft_printf.h"
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-	int count;
-	va_list args;
-
-	// Define an array of characters for hexadecimal digits
-	const char *HEX_DIGITS_LOWER = "0123456789abcdef";
-	const char *HEX_DIGITS_UPPER = "0123456789ABCDEF";
-	
-	count = 0;
-	va_start(args, format);
-
+	va_start(args, format); // starts the argument list
 	while (*format)
 	{
-		// Handle format specifiers
-		if (*format == '%')
-		{
-			format++; // Move past '%'
-
-			// Handle %c
-			if (*format == 'c')
-			{
-				// Handle %c
-				char c = va_arg(args, int);
-				// Implement printing 'c' here
-				count++; // Update the character count
-			}
-			
-			// Handle %s
-			else if (*format == 's')
-			{/* ... */}
-			
-			// Handle %p (pointer)
-			else if (*format == 'p')
-			{/* ... */}
-			
-			// Handle %d and %i (signed decimal integers)
-			else if (*format == 'd' || *format == 'i')
-			{/* ... */}
-			
-			// Handle %u (unsigned decimal integer)
-			else if (*format == 'u')
-			{/* ... */}
-			
-			// Handle %x (unsigned hexadecimal integer, lowercase) and %X (uppercase)
-			else if (*format == 'x' || *format == 'X')
-			{/* ... */}
-			
-			// Handle %%
-			else if (*format == '%')
-			{/* ... */}
-		}
+		if (*format != '%') //will print everything if not a placeholder
+			count += write(1, format, 1);
 		else
 		{
-			// Handle non-% characters
-			// Implement printing them here (you may use write function)
-			count++; // Update the character count
+			format++; // move past the placeholder
+         // sends the format value and the argument list to the handler
+			count += ft_handle_format_specifier(*format, args);
 		}
-		format++; // Move to the next character in the format string
+		format++; // move past the null element printed by the handler
 	}
-
-	va_end(args); // Clean up the va_list
-	return count; // Return the total characters printed
+	va_end(args); // close the argument list
+	return (count);
 }
 ```
 
-### Possible improvements and considerations
-
-- Error handling: The code does not handle invalid format specifiers gracefully. It should include error checking and report any invalid format specifiers or missing arguments.
-- Precision and width: The code does not handle precision or width modifiers (e.g., `%10s`, `%.2f`) commonly found in `printf`. Adding support for these would make the function more versatile.
-- Buffering: Instead of using `write` for every character, you can consider buffering the output and writing in larger chunks for better performance.
-- Error reporting: It might be helpful to return an error code or use a separate mechanism to report errors or failures during printing.
-- Portability: The code assumes that `write` is available and writes to standard output. You may want to make it more portable or allow specifying the output stream.
-- Extensibility: If you plan to add more format specifiers or customization options, consider a more modular design to make future additions easier.
-
-
----
 
 ## Bonus Part
 
-```c
-// Handle %d and %i (signed decimal integers)
-else if (*format == 'd' || *format == 'i')
-{
-	/* ... */
-	while (*format == '#' || *format == '+' || *format == ' ' || *format == '-' || *format == '0')
-	{/* ... */}			
-}
-```
+> Skiped
 
-### Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions
 
-The field minimum width is a formatting feature in the `printf` family of functions that allows you to specify the minimum number of characters that should be printed for a particular argument. This feature ensures that the output is padded or aligned to meet this width requirement. It is typically specified using an optional width specifier in the format string and can be combined with other formatting flags.
+## Possible improvements and considerations
 
-Here's how it works:
+- Error handling: 
+   - The code does not handle invalid format specifiers gracefully. It should include error checking and report any invalid format specifiers or missing arguments.
+   - It might be helpful to return an error code or use a separate mechanism to report errors or failures during printing.
 
-1. **Width Specifier**: In the format string, you can specify the minimum width by using an asterisk (`*`) followed by an integer value or by directly specifying the integer value. For example:
-   
-   - `*` specifies that the width should be obtained from the argument list.
-   - `3` specifies a fixed width of 3 characters.
+- MAKE THE BONUS PART: Precision and width: The code does not handle precision or width modifiers (e.g., `%10s`, `%.2f`) commonly found in `printf`.
 
-2. **Padding and Alignment**: Depending on the flags used in combination with the width specifier, the output can be padded with spaces or zeros to meet the specified width. The commonly used flags are:
+- Portability: The code assumes that `write` is available and writes to standard output. You may want to make it more portable or allow specifying the output stream. Some sort of `ft_printf_fd(int fd, const char *format, ...)`
 
-   - `-` (Minus): Left-justify the output within the specified width. This means that extra spaces are added to the right to reach the specified width.
-   - `0` (Zero): Pad the output with leading zeros instead of spaces. This flag is typically used with numeric values.
-   
-   If neither of these flags is used, the default behavior is to right-justify the output, adding spaces to the left to meet the specified width.
+- Buffering (NOT ALLOWED): Instead of using `write` for every character, you can consider buffering the output and writing in larger chunks for better performance.
 
-**Examples:**
-
-- `%5d`: This specifies a minimum width of 5 characters for a decimal integer. If the integer is shorter than 5 characters, it will be right-justified with leading spaces.
-
-- `%-8s`: This specifies a minimum width of 8 characters for a string. If the string is shorter than 8 characters, it will be left-justified with trailing spaces.
-
-- `%06.2f`: This specifies a minimum width of 6 characters for a floating-point number with 2 decimal places. If the number is shorter than 6 characters, it will be padded with leading zeros.
-
-In the `ft_printf` function, when it encounters a format specifier like `%5d`, it need to parse the specifier to extract the width (`5` in this case) and any flags (such as `-` or `0`). Then, you should adjust the output accordingly, either by adding spaces or zeros to meet the specified width, depending on the flags.
-
-> [!INFO]
-> The width specifier is optional, and if it's not provided, no padding or alignment is performed. It's a useful feature for formatting output to align columns or ensure a consistent appearance in tables and reports.
-
-### Manage all the following flags: `#`, `+`, *`(space)`*
-
-The flags `#`, `+`, and space are formatting options that you can use with format specifiers in the `printf` family of functions (including `ft_printf`) to control the way certain types of data are formatted in the output. These flags are used to modify the behavior of specific conversion specifiers, such as `%d`, `%o`, `%x`, and `%f`. Here's an explanation of each of these flags:
-
-1. **`#` (Sharp or Hash)**
-
-	- **Usage**: The `#` flag is used with various format specifiers to modify the format of the output.
-	
-	- **Effects**: The specific effect of the `#` flag depends on the conversion specifier it is used with. Here are some common uses:
-		- `%x` and `%X` (Hexadecimal): When used with `%x` or `%X`, the `#` flag adds the "0x" or "0X" prefix to the hexadecimal representation of the number. For example, `%#x` would print "0x" before the hexadecimal value.
-		- `%o` (Octal): When used with `%o`, the `#` flag adds a leading zero to the octal representation to indicate that it's an octal number. For example, `%#o` would print "0" before the octal value.
-		- `%f` (Floating-Point): When used with `%f`, the `#` flag ensures that the output has a decimal point, even if there are no fractional digits. For example, `%#f` would print "3.0" for the number 3.
-
-2. **`+` (Plus)**
-
-	- **Usage**: The `+` flag is used with numeric format specifiers, such as `%d` and `%f`.
-	
-	- **Effects**: When used with numeric format specifiers, the `+` flag ensures that the output includes a sign character for both positive and negative numbers:
-		- `%d` and `%i` (Decimal Integer): For these specifiers, the `+` flag ensures that a `+` sign is printed before positive numbers.
-		- `%f` (Floating-Point): When used with `%f`, the `+` flag ensures that both positive and negative numbers are printed with a sign character. Positive numbers have a `+` sign, while negative numbers have the regular `-` sign.
-
-3. **Space**
-
-	- **Usage**: The space flag is used with numeric format specifiers, such as `%d` and `%f`.
-	
-	- **Effects**: When used with numeric format specifiers, the space flag ensures that positive numbers are preceded by a space character (if no sign is present) to align them with negative numbers:
-		- `%d` and `%i` (Decimal Integer): For these specifiers, the space flag adds a space character before positive numbers if no sign is present. For example, `% d` would print " 3" for the number 3.
-		- `%f` (Floating-Point): When used with `%f`, the space flag ensures that positive numbers are printed with a space character before the sign if no sign is present. For example, `% f` would print " 3.0" for the number 3.
-
-In the `ft_printf` function, when it encounters a format specifier like `%+d` or `% #x`, it needs to parse the specifier to identify and apply these flags accordingly to achieve the desired output formatting. These flags provide options for controlling the display of numeric and other data types in a formatted manner.
-
-### Main changes
-
-Let's break down the differences and updates made to the `else if (*format == 'd' || *format == 'i')` condition in order to allow a more versatile formatting of signed decimal integers. It introduces **width specification**, **flag handling**, and **padding / alignment options** to meet various formatting requirements while maintaining compatibility with the original behavior of `%d` and `%i` format specifiers.
-
-1. **Handling Flags:**
-	
-	In the updated condition, we check for the presence of various flags that can modify the formatting of the output. Flags such as `#`, `+`, space, `-`, and `0` are checked and stored in the `flag` variable. The presence of these flags influences how the number is printed.
-
-2. **Width Specification:**
-	
-	We added a new section that parses and stores the width specifier in the `width` variable. The width specifier determines the minimum width of the printed output. It is obtained by parsing digits from the format string.
-
-3. **Padding and Alignment:**
-	
-	Based on the presence of flags and the specified width, we calculate `paddingLength`, which represents the number of characters needed to reach the specified width. Depending on whether the `-` flag is present, we either left-justify the output by adding spaces or zeros to the right (default behavior) or right-justify it by adding spaces or zeros to the left.
-	
-	- If the `-` flag is present, we left-justify the output. This means we add spaces or zeros to the right to meet the specified width.
-	
-	- If the `-` flag is not present, we right-justify the output. In this case, we handle the sign character (if needed) and then add spaces or zeros to the left to meet the specified width.
-
-4. **Sign Handling:**
-
-	We handle the sign character for negative and positive numbers based on the presence of the `+` and `-` flags. The sign character is added to the output when necessary.
-	
-	- For positive numbers, the `+` flag adds a `+` sign character.
-	- For positive numbers without a sign, the space flag adds a space character.
-	- For negative numbers, the `-` flag ensures that the `-` sign is correctly positioned.
-
-5. **Padding Character:**
-
-	We determine the padding character (`paddingChar`) based on the presence of the `0` flag. If the `0` flag is present, we use '0' as the padding character; otherwise, we use a space character.
-
-6. **Output Adjustment:**
-
-	We adjust the output format based on the specified width, flags, and sign characters. This ensures that the output meets the desired formatting requirements.
-
-7. **Continued Digits Printing:**
-
-	After handling width, flags, and sign characters, the code continues with the existing logic for printing the actual digits of the number, which was already present in the previous responses.
-	
-
----
 
 ## Usage examples
 
